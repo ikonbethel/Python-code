@@ -1,0 +1,58 @@
+# this used numpy array to solve multi-dimensional simultaneous equation
+#this uses the matrix principle
+#the format of the equation is ''' a1x1+b1y1+c1z1 = n1
+#                                  a2x2+b2y2+c2z2 = n2
+#                                  a3x3+b3y3+c3z3 = n3
+#input for first input should be in the format a1,b1,c1,a2,b2,c2,a3,b3,c3
+#while the second should be in the format n1,n2,n3
+#DevCUyo100DaysOfCode
+#Day 44
+#created by ikon beth
+
+
+import numpy as np
+import math
+count = 0
+print("""
+        The equation of simultaneous equation is of the format\n
+            a1x1 + b1y1 + c1z1 +... = n1
+            a2x2 + b2y2 + c2z2 +... = n2
+            a3x3 + b3y3 + c3z3 +... = n3
+            ...
+            ...
+            amxm + bmym + cmzm +... = nm
+      """)
+
+#this get the number of the simultaneous equation
+n = int(input('How many equations does the question have?:'))
+
+#data is the input of the coefficients of the variables
+data = input('Enter the coefficients of the equations in order(x1,y1,z1,x2...):')
+#ans is the input of the constants
+ans = input('Enter the constants of the equations in order(n1n2n3...):')
+
+#get is the linear array while get1 is its matrix and get its copy as get1_copy
+get = np.asmatrix(data)
+get1 = np.array(get).reshape(n,n)
+get1_copy = np.array(get1).copy()
+#print('get1_copy is ', get1_copy)
+
+#const is the linear array of constants while const_mat is its matrix
+const = np.asmatrix(ans)
+const_mat = np.array(const).reshape(n,1)
+#print('const_mat is ', const_mat)
+
+#this gets the determinant of the original matrix
+det = np.linalg.det(get1)
+print('The initial determinant is ',np.around(det))#np.around rounds up/down number
+
+#replacing the columns by the constant matrix
+while count < n:
+    get1_copy1 = get1_copy.copy()
+    get1_copy1[:, count] = const
+    #print(get1_copy1)
+    #i = 'det'+str(count)
+    #sub_mat_det is the substituted matrix determinant
+    sub_mat_det = np.linalg.det(get1_copy1)
+    print('solution',count, '=',sub_mat_det/det)
+    count += 1
